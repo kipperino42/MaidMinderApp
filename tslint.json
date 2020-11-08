@@ -1,6 +1,8 @@
 {
   "extends": "tslint:recommended",
   "rules": {
+    "no-inferrable-types": false,
+    "comment-format": false,
     "align": {
       "options": [
         "parameters",
@@ -64,10 +66,7 @@
       "trace"
     ],
     "no-empty": false,
-    "no-inferrable-types": [
-      true,
-      "ignore-params"
-    ],
+    "object-literal-shorthand": false,
     "no-non-null-assertion": true,
     "no-redundant-jsdoc": true,
     "no-switch-case-fall-through": true,
@@ -120,6 +119,7 @@
       ]
     },
     "whitespace": {
+
       "options": [
         "check-branch",
         "check-decl",
@@ -129,6 +129,7 @@
         "check-typecast"
       ]
     },
+    "no-trailing-whitespace": false,
     "no-conflicting-lifecycle": true,
     "no-host-metadata-property": true,
     "no-input-rename": true,
