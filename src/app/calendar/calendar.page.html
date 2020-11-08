@@ -1,0 +1,102 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      {{viewTitle}}
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content class="ion-padding-top">
+
+  <ng-template #templateEventMonthCalendar let-view="view" let-row="row" let-col="col">
+
+    <div class="square">
+      <div class="content">
+
+        <div *ngIf="view.dates[row*7+col].events.length===0">{{view.dates[row*7+col].label}}</div>
+
+        <div *ngIf="view.dates[row*7+col].events.length>0">
+          {{view.dates[row*7+col].label}}
+
+          <div *ngIf="view.dates[row*7+col].events.length===1">
+            <div class="solidLineSingle"></div>
+          </div>
+
+          <div *ngIf="view.dates[row*7+col].events.length ===2">
+            <div class="solidLineMulti"></div>
+            <div class="solidLineMulti"></div>
+          </div>
+
+          <div *ngIf="view.dates[row*7+col].events.length > 2 ">
+            <div class="solidLineMulti"></div>
+            <div class="solidLineMulti"></div>
+            <div class="dashedLineMulti"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+
+  <ion-buttons end>
+    <button ion-button [disabled]="isToday" (click)="today()">Today</button>
+    <button ion-button (click)="changeMode('month')">M</button>
+    <button ion-button (click)="changeMode('week')">W</button>
+    <button ion-button (click)="changeMode('day')">D</button>
+    <button ion-button (click)="loadEvents()">Load Events</button>
+  </ion-buttons>
+
+  <calendar class="flatCalendar"
+            [eventSource]="eventSource"
+            [calendarMode]="calendar.mode"
+            [showEventDetail]="calendar.showEventDetail"
+            [currentDate]="calendar.currentDate"
+            (onTitleChanged)="onViewTitleChanged($event)"
+            startHour="6"
+            endHour="20"
+            step="30"
+            [startingDayWeek]="calendar.startingDayWeek"
+            [startingDayMonth]="calendar.startingDayMonth"
+            [formatMonthTitle]="calendar.formatMonthTitle"
+            [monthviewDisplayEventTemplate]="templateEventMonthCalendar"
+            [monthviewInactiveDisplayEventTemplate]="templateEventMonthCalendar"
+            [monthviewEventDetailTemplate]="templateEventMonthDetail"
+            (onRangeChanged)="onRangeChanged($event)"
+            (onTimeSelected)="onTimeSelected($event)">
+  </calendar>
+
+
+  <ng-template #templateEventMonthDetail let-showEventDetail="showEventDetail" let-selectedDate="selectedDate"
+               let-noEventsLabel="noEventsLabel">
+
+    <ion-spinner *ngIf="!eventSource" name="dots" color="secondary"></ion-spinner>
+
+    <ion-list *ngIf="selectedDate.events.length > 0">
+
+      <ion-item [routerLink]="['/new', event.id, '']" routerDirection="forward" lines="none"
+                *ngFor="let event of selectedDate.events">
+        <ion-avatar *ngIf="event.avatar" slot="end">
+          <img src="{{event.avatar}}">
+        </ion-avatar>
+        <p class="title">{{event.title}}</p>
+        <ion-badge *ngIf="event.allDay" color="secondary" slot="end">All day </ion-badge>
+        <ion-badge *ngIf="!event.allDay" slot="end">{{event.startTime | date: 'HH:mm'}} -
+          {{event.endTime | date: 'HH:mm'}} </ion-badge>
+      </ion-item>
+    </ion-list>
+    <ion-item class="text-center" *ngIf="selectedDate.length == 0">{{noEventsLabel}}</ion-item>
+  </ng-template>
+
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" [routerLink]="['/new', 'new', lastDaySelected]"
+           routerDirection="forward">
+    <ion-fab-button>
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+</ion-content>
+
+
+

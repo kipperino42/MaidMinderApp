@@ -1,0 +1,53 @@
+ion-content {
+  --padding-start: 24px;
+  --padding-end: 24px;
+}
+
+ion-spinner {
+  padding-left: 50%;
+  padding-right: 50%;
+}
+
+//Calendar event item
+p.title {
+  font-size: 14px;
+  color: var(--ion-color-dark-rgb);
+}
+
+p.time {
+  font-size: 10px;
+  color: var(--ion-color-secondary);
+}
+
+ion-item {
+  --box-shadow: rgba(0, 0, 0, 0.07) 1px 1px 8px;
+  --border-radius: 8px;
+  padding: 8px;
+}
+
+ion-header {
+  border-bottom-left-radius: 80px; //defined in global.scss
+  border-bottom-right-radius: 80px; //defined in global.scss
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+
+  ion-title {
+    text-align: center;
+    font-size: 26px;
+    font-weight: bold;
+    line-height: 30px;
+    color: navy;
+    padding-top: 30px;
+    padding-bottom: 30px;
+  }
+}
+
+button {
+  padding: 1em;
+  margin: 0.2em;
+}
+
+/*ion-fab-button {
+  --box-shadow: none;
+}*/
