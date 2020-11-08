@@ -1,29 +1,22 @@
 <ion-app>
-  <ion-split-pane contentId="main-content">
-    <ion-menu contentId="main-content" type="overlay">
-      <ion-content>
-        <ion-list id="inbox-list">
-          <ion-list-header>Maid Minder!!!</ion-list-header>
-          <ion-note>kipperino32@gmail.com</ion-note>
+    <ion-router-outlet main></ion-router-outlet>
+   <section class="header">
+      <h1>Maid Minder</h1>
+    </section>
 
-          <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">
-            <ion-item (click)="selectedIndex = i" routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" [class.selected]="selectedIndex == i">
-              <ion-icon slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon>
-              <ion-label>{{ p.title }}</ion-label>
-            </ion-item>
-          </ion-menu-toggle>
-        </ion-list>
 
-        <!--<ion-list id="labels-list">
-          &lt;!&ndash;<ion-list-header>Labels</ion-list-header>&ndash;&gt;
+    <section class="auth" *ngIf="auth.user$ | async as user; else login">
+        {{user | json}}
+      <hr>
 
-          <ion-item *ngFor="let label of labels" lines="none">
-            <ion-icon slot="start" ios="bookmark-outline" md="bookmark-sharp"></ion-icon>
-            <ion-label>{{ label }}</ion-label>
-          </ion-item>
-        </ion-list>-->
-      </ion-content>
-    </ion-menu>
-    <ion-router-outlet id="main-content"></ion-router-outlet>
-  </ion-split-pane>
+      <ion-button class="button" (click)="auth.signOut()">Sign Out</ion-button>
+      <hr>
+    </section>
+
+
+    <ng-template #login>
+      <ion-button class="button" (click)="auth.googleSignin()">Sign In</ion-button>
+    </ng-template>
+
+
 </ion-app>

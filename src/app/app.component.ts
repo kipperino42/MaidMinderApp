@@ -1,34 +1,29 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
+import {AuthService, User} from "./services/auth.service";
+import {TabsPage} from "./tabs/tabs.page";
+import {Subscription} from "rxjs";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss']
 })
-export class AppComponent implements OnInit {
-  public selectedIndex = 0;
-  public appPages = [
-    {
-      title: 'Calendar',
-      url: '/folder/Calendar',
-      icon: 'bookmark-outline'
-    },
-    {
-      title: 'Reminders',
-      url: '/folder/Reminders',
-      icon: 'bookmark-outline'
-    },
-  ];
-  public labels = [''];
+export class AppComponent implements OnInit{
+  rootPage: any = TabsPage;
+  authUser: Subscription;
+  currentUser: User;
 
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
-    private statusBar: StatusBar
+    private statusBar: StatusBar,
+    public auth: AuthService,
+    public router: Router
   ) {
     this.initializeApp();
   }
@@ -40,10 +35,15 @@ export class AppComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
-    const path = window.location.pathname.split('folder/')[1];
-    if (path !== undefined) {
-      this.selectedIndex = this.appPages.findIndex(page => page.title.toLowerCase() === path.toLowerCase());
-    }
+  ngOnInit(): void {
+    this.authUser = this.auth.user$.subscribe((user) => {
+      this.currentUser = user;
+
+      if (this.currentUser && this.currentUser.uid) {
+        console.log('CURRENT USER:');
+        console.table(this.currentUser);
+        this.router.navigate(['tabs/calendar']);
+      }
+    })
   }
 }

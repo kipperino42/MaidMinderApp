@@ -6,12 +6,19 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 
-import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { CalendarModule, DateAdapter } from 'angular-calendar';
-import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { AppComponent } from './app.component';
 
+//Firebase
+import { AngularFireModule } from '@angular/fire';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFireAuthModule } from '@angular/fire/auth';
+import { environment } from '../environments/environment';
+
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Ionic4DatepickerModule } from    '@logisticinfotech/ionic4-datepicker';
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {AngularFireAuthGuard} from "@angular/fire/auth-guard";
 
 @NgModule({
   declarations: [AppComponent],
@@ -20,13 +27,20 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,
-    CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory }),
-    NgbModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFirestoreModule,
+    AngularFireAuthModule,
+    Ionic4DatepickerModule,
+    ReactiveFormsModule,
+    FormsModule,
+    BrowserAnimationsModule
   ],
   providers: [
     StatusBar,
     SplashScreen,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    AngularFireAuthGuard
   ],
   bootstrap: [AppComponent]
 })
