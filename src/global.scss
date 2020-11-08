@@ -16,7 +16,7 @@
 @import "~@ionic/angular/css/normalize.css";
 @import "~@ionic/angular/css/structure.css";
 @import "~@ionic/angular/css/typography.css";
-@import '~@ionic/angular/css/display.css';
+@import "~@ionic/angular/css/display.css";
 
 /* Optional CSS utils that can be commented out */
 @import "~@ionic/angular/css/padding.css";
@@ -38,15 +38,13 @@
 @import "~@ionic/angular/css/flex-utils.css";
 
 //Calendar styles
-@import "src/theme/calendar.scss";
+@import "./theme/calendar.scss";
 
 //Choose your font family by activating one of these three
-//@import "src/theme/font-montserrat.scss";
-@import "src/theme/font-opensans.scss";
-//@import "src/theme/font-inconsolata.scss";
+@import "./theme/font-montserrat.scss";
+@import "sc/theme/font-opensans.scss";
+@import "./theme/font-inconsolata.scss";
 
-ion-toast{
+ion-toast {
   --background: var(--ion-color-dark);
 }
-
-
