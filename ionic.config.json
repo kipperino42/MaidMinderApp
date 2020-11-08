@@ -1,0 +1,7 @@
+{
+  "name": "MaidMinder",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
