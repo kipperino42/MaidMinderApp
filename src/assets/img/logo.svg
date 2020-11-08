@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="422" height="175.71" viewBox="0 0 422 175.71">
+  <g id="Grupo_841" data-name="Grupo 841" transform="translate(-380.999 -140.335)">
+    <g id="Grupo_828" data-name="Grupo 828" transform="translate(381.999 140.335)">
+      <g id="Grupo_122" data-name="Grupo 122" transform="translate(0 36.71)">
+        <text id="calendar" transform="translate(210 113)" fill="#18385e" font-size="105" font-family="SegoeUI-Bold, Segoe UI" font-weight="700"><tspan x="-210.179" y="0">calendar</tspan></text>
+      </g>
+      <g id="Grupo_826" data-name="Grupo 826" transform="translate(328.875 0)">
+        <rect id="Rectángulo_192" data-name="Rectángulo 192" width="90.808" height="56.849" rx="8.65" transform="translate(0.126 9.593)" fill="#32cdb5"/>
+        <path id="Trazado_215" data-name="Trazado 215" d="M417.667,351.791l-4.377-4.878a2.168,2.168,0,0,0-3.3,0L382.5,377.1l-11.628-12.981a2.162,2.162,0,0,0-3.279,0l-4.426,4.851a2.808,2.808,0,0,0,0,3.66l17.66,19.72a2.183,2.183,0,0,0,3.3,0l33.545-36.9a2.777,2.777,0,0,0,0-3.66Z" transform="translate(-345.36 -346.15)" fill="#18385e"/>
+      </g>
+    </g>
+  </g>
+</svg>
