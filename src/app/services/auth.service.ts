@@ -6,6 +6,7 @@ import { switchMap} from "rxjs/operators";
 import {Router} from "@angular/router";
 import firebase from "firebase";
 import auth = firebase.auth;
+import { User } from '../models/user.model'
 
 @Injectable({
   providedIn: 'root'
@@ -62,10 +63,4 @@ export class AuthService {
 }
 
 
-export interface User {
-  uid: string;
-  email: string;
-  photoURL?: string;
-  displayName?: string;
-  somethingCustom?: string;
-}
+

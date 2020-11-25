@@ -1,8 +1,11 @@
 import { CalendarComponent } from 'ionic2-calendar';
-import {Component, ViewChild, OnInit, Inject, LOCALE_ID, OnChanges, SimpleChanges} from '@angular/core';
+import {Component, ViewChild, Inject, LOCALE_ID, OnChanges, SimpleChanges} from '@angular/core';
 import { EventService } from '../services/event.service';
 import { Subscription } from 'rxjs';
 import {Calendar} from '../models/calendar.model';
+import {ModalController} from "@ionic/angular";
+import {EventCreatorComponent} from "../event-creator/event-creator.component";
+import { Event } from '../models/event.model';
 
 @Component({
   selector: 'app-calendar-tab',
@@ -11,62 +14,34 @@ import {Calendar} from '../models/calendar.model';
 })
 
 export class CalendarPage implements OnChanges {
-
-  eventSource;
-  viewTitle;
-
-  // Will manage subscribe/unsubscribe from Firebase
+  public eventSource;
+  public viewTitle;
   private eventSubscription: Subscription = new Subscription();
-  public lastDaySelected: any = ''; //Stores last date selected by user on month calendar view
-
+  public lastDaySelected: any = '';
+  public isToday: boolean = false;
   public calendar: Calendar = new Calendar('month', new Date(), true, 'MMMM yyyy', 0, 1);
 
   @ViewChild(CalendarComponent) myCalendar: CalendarComponent;
 
-  public isToday: boolean = false;
-
-  constructor(@Inject(LOCALE_ID) private locale: string, private eventService: EventService) {
+  constructor(@Inject(LOCALE_ID) private locale: string, private eventService: EventService, public modalController: ModalController) {
   }
 
-  loadEvents() {
-    this.eventSource = this.createRandomEvents();
+  ngOnChanges(changes: SimpleChanges): void {
   }
 
-  createRandomEvents() {
-    const events = [];
-    for (let i = 0; i < 50; i += 1) {
-      const date = new Date();
-      const eventType = Math.floor(Math.random() * 2);
-      const startDay = Math.floor(Math.random() * 90) - 45;
-      let endDay = Math.floor(Math.random() * 2) + startDay;
-      let startTime;
-      let endTime;
-      if (eventType === 0) {
-        startTime = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate() + startDay));
-        if (endDay === startDay) {
-          endDay += 1;
-        }
-        endTime = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate() + endDay));
-        events.push({
-          title: 'All Day - ' + i,
-          startTime: startTime,
-          endTime: endTime,
-          allDay: true
-        });
-      } else {
-        const startMinute = Math.floor(Math.random() * 24 * 60);
-        const endMinute = Math.floor(Math.random() * 180) + startMinute;
-        startTime = new Date(date.getFullYear(), date.getMonth(), date.getDate() + startDay, 0, date.getMinutes() + startMinute);
-        endTime = new Date(date.getFullYear(), date.getMonth(), date.getDate() + endDay, 0, date.getMinutes() + endMinute);
-        events.push({
-          title: 'Event - ' + i,
-          startTime: startTime,
-          endTime: endTime,
-          allDay: false
-        });
-      }
+  async presentModal() {
+    const modal = await this.modalController.create({
+      component: EventCreatorComponent,
+      cssClass: 'my-custom-class',
+      componentProps: { date: this.lastDaySelected }
+    });
+    return await modal.present();
+  }
+
+  loadEvents(source?) {
+    if (source) {
+      this.eventSource = source;
     }
-    return events;
   }
 
   onRangeChanged(ev) {
@@ -78,7 +53,6 @@ export class CalendarPage implements OnChanges {
     current.setHours(0, 0, 0);
     return date < current;
   }
-  
 
   onCurrentDateChanged(event: Date) {
     const today = new Date();
@@ -99,31 +73,16 @@ export class CalendarPage implements OnChanges {
     this.calendar.currentDate = new Date();
   }
 
-  /*ionViewDidEnter() {
-    this.eventSubscription = this.eventService.getEvents().subscribe(res => {
-
-      res.forEach(event => {
-        const start = new Date(event.startTime);
-        const end = new Date(event.endTime);
-        event.startTime = start;
-        event.endTime = end;
-      });
-
-      this.eventSource = res;
-      console.log(JSON.stringify(res));
-    });
-  }*/
-
   ionViewWillLeave() {
     this.eventSubscription.unsubscribe();
   }
 
   ngOnInit() {
+    this.eventService.eventsChanged.subscribe((eventArray: Array<Event>) => {
+      this.loadEvents(eventArray);
+    });
   }
 
-
-
-  // Selected date range and hence title changed
   onViewTitleChanged(title) {
     this.viewTitle = title;
   }
@@ -133,8 +92,7 @@ export class CalendarPage implements OnChanges {
     this.lastDaySelected = d.toString();
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes);
+  async createEvent() {
+    await this.presentModal();
   }
-
 }
