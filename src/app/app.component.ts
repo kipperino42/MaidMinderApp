@@ -1,12 +1,12 @@
-import {Component, OnInit} from '@angular/core';
-
+import { Component, OnInit } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
-import {AuthService, User} from "./services/auth.service";
-import {TabsPage} from "./tabs/tabs.page";
-import {Subscription} from "rxjs";
-import {Router} from "@angular/router";
+import { AuthService } from "./services/auth.service";
+import { TabsPage } from "./tabs/tabs.page";
+import { Subscription } from "rxjs";
+import { Router } from "@angular/router";
+import { User } from "./models/user.model";
 
 @Component({
   selector: 'app-root',
@@ -18,13 +18,8 @@ export class AppComponent implements OnInit{
   authUser: Subscription;
   currentUser: User;
 
-  constructor(
-    private platform: Platform,
-    private splashScreen: SplashScreen,
-    private statusBar: StatusBar,
-    public auth: AuthService,
-    public router: Router
-  ) {
+  constructor( private platform: Platform, private splashScreen: SplashScreen, private statusBar: StatusBar,
+               public auth: AuthService, public router: Router) {
     this.initializeApp();
   }
 
@@ -36,13 +31,11 @@ export class AppComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.authUser = this.auth.user$.subscribe((user) => {
+    this.authUser = this.auth.user$.subscribe(async (user) => {
       this.currentUser = user;
 
       if (this.currentUser && this.currentUser.uid) {
-        console.log('CURRENT USER:');
-        console.table(this.currentUser);
-        this.router.navigate(['tabs/calendar']);
+        await this.router.navigate(['tabs/calendar']);
       }
     })
   }

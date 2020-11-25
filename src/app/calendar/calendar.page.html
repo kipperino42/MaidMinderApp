@@ -88,10 +88,10 @@
     <ion-item class="text-center" *ngIf="selectedDate.length == 0">{{noEventsLabel}}</ion-item>
   </ng-template>
 
-
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed" [routerLink]="['/new', 'new', lastDaySelected]"
+  <!--<ion-fab vertical="bottom" horizontal="end" slot="fixed" [routerLink]="['/new', 'new', lastDaySelected]"-->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed"
            routerDirection="forward">
-    <ion-fab-button>
+    <ion-fab-button (click)="createEvent()">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>

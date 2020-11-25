@@ -5,17 +5,18 @@ export class Event {
     id?: string;
     title: string;
     desc?: string;
-    startTime: any;
-    endTime: any;
+    startDate: Date;
+    startTime: Date;
+    endTime: Date;
+    duration: number;
     allDay: boolean;
     alarm?: boolean;
 
     /**
      * constrcutor method
      */
-    constructor(title: string, id?: string) {
-        this.title = title;
-        this.id = id;
+    constructor(data?: any) {
+        Object.assign(this,data);
     }
 
     private setId(id: string): void {
