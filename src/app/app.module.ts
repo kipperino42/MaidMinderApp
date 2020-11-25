@@ -19,7 +19,7 @@ import {EventCreatorComponent} from "./event-creator/event-creator.component";
 @NgModule({
   declarations: [AppComponent, EventCreatorComponent],
 
-  entryComponents: [],
+  entryComponents: [EventCreatorComponent],
 
   imports: [
     BrowserModule,
