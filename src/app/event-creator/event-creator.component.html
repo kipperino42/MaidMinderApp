@@ -1,0 +1,64 @@
+<ion-content fullscreen>
+
+  <ion-card-header>
+    Create Event
+  </ion-card-header>
+
+  <ion-item-divider></ion-item-divider>
+  <ion-list>
+    <ion-item>
+      <ion-label>Title:</ion-label>
+      <ion-input type="text" #title ></ion-input>
+    </ion-item>
+
+    <ion-item-divider></ion-item-divider>
+
+    <ion-item>
+      <ion-label>Length:</ion-label>
+      <ion-range (ionChange)="onEventLengthChange($event.detail.value)"
+              pin="true" ticks="true" step="15" snaps="true" min="15" max="240" color="secondary">
+        <ion-label slot="start">15</ion-label>
+        <ion-label slot="end">240</ion-label>
+      </ion-range>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Start Time:</ion-label>
+      <ion-datetime #startTime name="startTime"
+              display-format="h:mm A" picker-format="h:mm A" ></ion-datetime>
+    </ion-item>
+
+
+    <ion-item>
+      <ion-label>Description:</ion-label>
+      <ion-textarea  #desc name="desc"></ion-textarea>
+    </ion-item>
+
+    <ion-item-divider></ion-item-divider>
+
+    <ion-item>
+      <ion-label>Alert:</ion-label>
+      <ion-toggle #alarm name="alarm" color="primary"></ion-toggle>
+    </ion-item>
+
+  </ion-list>
+
+  <section class="full-width">
+    <ion-button color="danger" (click)="onCancel()">Cancel</ion-button>
+    <ion-button color="primary"
+                (click)="onSave({
+                title: title.value,
+                startTime: startTime.value,
+                length: selectedLength,
+                desc: desc.value,
+                alarm: alarm.value
+                })">
+      Save</ion-button>
+  </section>
+
+
+
+
+
+
+</ion-content>
